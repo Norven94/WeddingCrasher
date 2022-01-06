@@ -1,0 +1,31 @@
+@import "./variables.scss";
+
+.form-container {
+    max-width: 100%;
+
+    .input-container {
+        flex-direction: column; 
+
+        input {
+            width: 250px;
+        }
+
+        @media #{$md} {
+            flex-direction: row;       
+        }
+    }
+
+    .error-message {
+        color: $red;
+    }
+
+    .success-message {
+        color: $green;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+}

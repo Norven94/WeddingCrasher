@@ -1,0 +1,28 @@
+//Colors
+$red: #FF9B9B;
+$green: #9FD08D;
+$purple: #96A9F8;
+$gray: #707070;
+$gray-light: #C6C6C6;
+$disabled: #FEE7E7;
+$white: #ffffff;
+$box-shadow: #00000050;
+
+
+//Font sizes
+$mobile-tablet-small: 0.75rem; 
+$mobile-tablet-big: 1rem; 
+$mobile-tablet-h1: 2.5rem; 
+$mobile-tablet-h2: 1.56rem; 
+$desktop-small: 1rem; 
+$desktop-big: 1.25rem; 
+$desktop-h1: 3.125rem;
+$desktop-h2: 2.5rem;
+$all-h3: 1.5rem;
+$mobile-h3: 1.25rem;
+
+//Responsive sizes
+$sm: #{"only screen and (min-width: 576px)"};
+$md: #{"only screen and (min-width: 768px)"};
+$lg: #{"only screen and (min-width: 992px)"};
+$xl: #{"only screen and (min-width: 1200px)"};

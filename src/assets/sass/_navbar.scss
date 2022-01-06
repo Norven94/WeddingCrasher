@@ -1,0 +1,16 @@
+@import "variables";
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    height: 70px;
+    border-bottom: 1px solid $gray;
+
+    .navbar-logo {
+        text-decoration: none;
+        font-weight: 800;
+        color: $red;
+    }
+}

@@ -1,0 +1,44 @@
+@import "./variables.scss";
+
+.masonry-container {
+	display: flex;
+	margin-left: -10px;
+	width: auto;
+
+	.masonry-column {
+		margin-left: 10px;
+		background-clip: padding-box;
+
+		> * {
+			margin-bottom: 10px;
+		}
+
+		
+		.image-card {
+			position: relative;
+			border: 3px solid transparent;
+			border-radius: 10px;
+			overflow: hidden;
+			
+			&:hover {
+				border: 3px solid $red;
+			}
+			
+			img {
+				width: 100%;
+				
+			}
+			
+
+			
+
+			.fa-icon {
+				z-index: 1;
+				position: absolute;
+				top: 10px;
+				right: 10px;
+			}
+		}
+		
+	}
+}

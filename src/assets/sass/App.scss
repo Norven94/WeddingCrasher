@@ -1,0 +1,27 @@
+//Components
+@import "superbutton";
+@import "inputfield";
+@import "navbar";
+@import "dropzone";
+@import "imagegrid";
+
+//Pages
+@import "loginpage";
+@import "createalbumpage";
+@import "homepage";
+
+//Globals
+@import "variables";
+@import "layout";
+@import "margin";
+@import "padding";
+
+
+.App {
+  text-align: center;
+}
+
+.loginContainer {
+  width: 400px;
+  margin: auto;
+}

@@ -1,0 +1,10 @@
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 90vw;
+    margin: auto;
+
+    @media #{$md} {
+        max-width: 80vw;        
+    }
+}

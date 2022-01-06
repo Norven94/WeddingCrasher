@@ -1,0 +1,8 @@
+.albums-container {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @media #{$md} {
+        grid-template-columns: 1fr 1fr 1fr;      
+    }
+}
