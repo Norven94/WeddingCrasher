@@ -23,7 +23,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
 
         {/* Secure routes */}
-        <Route path="/album" element={
+        <Route path="/album/:id" element={
           <SecureRoute redirectTo="/login">
             <AlbumPage />
           </SecureRoute>

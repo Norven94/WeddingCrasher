@@ -1,8 +1,24 @@
+@import "./variables.scss";
+
 .albums-container {
     display: grid;
     grid-template-columns: 1fr;
+    column-gap: 20px;
+    
 
     @media #{$md} {
         grid-template-columns: 1fr 1fr 1fr;      
+    }
+
+    .album-card {
+        border: 1px solid $red;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px $box-shadow;
+        transition: .5s;
+        cursor: pointer;
+
+        &:hover {
+            border: 1px solid $green;
+        }
     }
 }

@@ -11,6 +11,7 @@ const masonryBreakpoints = {
 }
 
 const ImageGrid = ({ images, removeImage }) => {
+
   return (
     <Masonry
     breakpointCols={masonryBreakpoints}
