@@ -1,0 +1,25 @@
+@import "./variables.scss";
+
+.customer-container {
+    .heading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+    }
+
+    .total-container {
+        text-align: left;
+
+        span {
+            color: $red;
+        }
+        .total-big {
+            font-size: $desktop-big;
+            font-weight: 600;
+        }
+        .total-small {
+            font-size: $desktop-small;
+        }
+    }
+}

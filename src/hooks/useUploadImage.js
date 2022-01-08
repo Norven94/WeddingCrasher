@@ -32,7 +32,7 @@ export const useUploadImage = () => {
 			// get download url to uploaded file
 			const url = await getDownloadURL(fileRef)
 
-            await addDoc(collection(db, 'images'), {
+            const result = await addDoc(collection(db, 'images'), {
 				created: serverTimestamp(),
 				name: image.name,
 				owner: userId,
@@ -46,6 +46,7 @@ export const useUploadImage = () => {
                 url,
                 path: fileRef.fullPath,
                 uuid,
+                _id: result.id
             })
             setIsLoading(false)
             setIsSuccess(true)

@@ -19,24 +19,77 @@
 			border: 3px solid transparent;
 			border-radius: 10px;
 			overflow: hidden;
+			transition: .3s;
 			
 			&:hover {
+				border: 3px solid $purple;
+			}
+
+			&.keep {
+				border: 3px solid $green;
+			}
+
+			&.remove {
 				border: 3px solid $red;
 			}
 			
 			img {
 				width: 100%;
-				
 			}
 			
-
-			
-
-			.fa-icon {
+			.fa-icon,
+			.review-btn {
 				z-index: 1;
 				position: absolute;
 				top: 10px;
 				right: 10px;
+			}
+
+			.vote-overlay { 
+				z-index: 1;
+				position: absolute;
+				background-color: $box-shadow;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				.fa-icon {
+					position: absolute;
+					top: 15px;
+					right: 15px;
+					z-index: 2;
+				}
+
+				.vote-box {
+					width: 150px;
+					background-color: $white;
+					border-radius: 20px;
+					padding: 10px 15px;
+					box-shadow: 1px 1px 10px $box-shadow;
+					position: relative;
+
+					@media #{$lg} {
+						width: 250px;
+						padding: 20px 30px;
+					}
+
+					p {
+						font-size: $desktop-x-small;
+						margin: 10 0 0 0;
+					}
+
+					.btn-box {
+						display: flex;
+						justify-content: center;
+
+						@media #{$lg} {
+							flex-direction: row;       
+						}
+					}
+				}
 			}
 		}
 		

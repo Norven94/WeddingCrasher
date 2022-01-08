@@ -16,6 +16,13 @@
         font-size: $desktop-big
     }
 
+    &.small {
+        width: 80px;
+        padding: 6px 3px;
+        border-radius: 20px;
+        font-size: $desktop-x-small
+    }
+
     &.secondary {
         background-color: $white;
         color: $red;

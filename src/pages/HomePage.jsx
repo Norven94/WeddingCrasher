@@ -22,11 +22,12 @@ const HomePage = () => {
           {loading && <p>Loading...</p>}
           {data && (
             <div className="albums-container">
+              {console.log(data)}
               {data.map((album) => (
                 <div key={album.id} className="album-card" onClick={() => navigate(`/album/${album.id}`)}>
-                  {console.log(album)}
                   <h2>{album.name}</h2>
-                  <p>{album.id}</p>
+                  <p>Created: {album.timestamp.toDate().toDateString()}</p>
+                  <p>Images: {album.images.length}</p>
                 </div>
               ))}
             </div>

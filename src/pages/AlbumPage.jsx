@@ -26,21 +26,22 @@ const AlbumPage = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data)
       setImages(data.images);
     }
   }, [data]);
 
-  useEffect(() => {
-    if (data) {
-      const newImages = {
-        images
-      }
-      updateHook.updateAlbum(newImages, data.id)
-    }
-  }, [images])
+  // useEffect(() => {
+  //   if (data) {
+  //     const newImages = {
+  //       images
+  //     }
+  //     updateHook.updateAlbum(newImages, data.id)
+  //   }
+  // }, [images])
 
   const handleRemoveImage = (params) => {
-    deleteImageHook.deleteImage(params.path, params.uuid);
+    deleteImageHook.deleteImage(params);
     setImages((images) => images.filter((image) => image.uuid !== params.uuid));
   };
 
@@ -56,6 +57,13 @@ const AlbumPage = () => {
     }
   }
 
+  const makePrivate = () => {
+    if (!updateHook.isLoading) {
+      updateHook.updateAlbum({public: false}, data.id)
+    }
+  }
+  
+
   return (
     <div className="pageContainer">
       {loading && <p>Loading...</p>}
@@ -68,7 +76,7 @@ const AlbumPage = () => {
                 <input type="text" placeholder="Enter new album name" ref={albumNameRef} />
                 <SuperButton className={`${updateHook.isLoading && "disabled"} ml-2`} title="Change" type="submit" />
               </form>
-            ): (
+            ) : (
               <div className="album-name-container">
                 <h1>{data.name}</h1>
                 <div className="ml-2 fa-icon">
@@ -76,7 +84,11 @@ const AlbumPage = () => {
                 </div>
               </div>
             )}
-            <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Share album" onClick={() => setShareQuestion(true)} />
+            {!data.public ? (
+              <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Share album" onClick={() => setShareQuestion(true)} />
+            ) : (
+              <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Being reviewed" onClick={makePrivate} />
+            )}
           </div>
           {updateHook.success && <p>Successfully updated changes</p>}
           {updateHook.error && <p>{updateHook.error}</p>}

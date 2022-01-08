@@ -2,10 +2,9 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteAlbum } from "../hooks/useDeleteAlbum";
 import { useDataContext } from "../contexts/DataContext";
-import { useAuthContext } from "../contexts/AuthContext";
 import SuperButton from "../components/SuperButton";
 
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
 const PopQuestion = ({
@@ -14,8 +13,7 @@ const PopQuestion = ({
   setDeleteQuestion,
   setShareQuestion,
 }) => {
-  const { images, setImages } = useDataContext();
-  const { currentUser } = useAuthContext();
+  const { setImages } = useDataContext();
   const deleteAlbumHook = useDeleteAlbum();
   const emailRef = useRef();
   const [error, setError] = useState(undefined);
@@ -32,18 +30,17 @@ const PopQuestion = ({
     console.log("Shared album with: ", emailRef.current.value);
 
     try {
-      const timeStamp = new Date().toLocaleDateString("en-GB");
-      const result = await addDoc(collection(db, "albums"), {
-        name: `${albumDetails.name} - ${timeStamp}`,
+      const result = await addDoc(collection(db, 'albums'), {
+        name: `${albumDetails.name} - in review`,
         public: true,
-        images,
-        ownerId: currentUser.uid,
-      });
-      setShareQuestion(false);
+        images: albumDetails.images,
+        ownerId: albumDetails.ownerId,
+        timestamp: serverTimestamp(),
+    })
       navigate(`/customer-album/${result.id}`);
     } catch (e) {
-      console.log(e);
-      setError("Got following error when sharing album: ", e.message);
+      console.log(e)
+      setError("Got following error when creating album: ", e.message);
     }
   };
 

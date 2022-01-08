@@ -23,7 +23,8 @@ const Dropzone = () => {
       setImages([...images, {
         path: imageDetails.path,
         url: imageDetails.url,
-        uuid: imageDetails.uuid
+        uuid: imageDetails.uuid,
+        _id: imageDetails._id
       }])
     }
   }, [imageDetails])

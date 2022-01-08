@@ -9,7 +9,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { useDataContext } from "../contexts/DataContext";
 import { useDeleteImage } from "../hooks/useDeleteImage";
 
-import { collection, addDoc } from "firebase/firestore"
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase"
 
 const CreateAlbumPage = () => {
@@ -41,7 +41,8 @@ const CreateAlbumPage = () => {
           name: nameRef.current.value,
           public: false,
           images,
-          ownerId: currentUser.uid
+          ownerId: currentUser.uid,
+          timestamp: serverTimestamp(),
       })
         setImages([]);
         navigate("/");
@@ -52,7 +53,7 @@ const CreateAlbumPage = () => {
   };
 
   const handleRemoveImage = (params) => {
-    useDelete.deleteImage(params.path, params.uuid)
+    useDelete.deleteImage(params)
     setImages(images => images.filter(image => image.uuid !== params.uuid))
   } 
 

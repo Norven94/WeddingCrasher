@@ -7,15 +7,16 @@ export const useDeleteImage = () => {
 	const [error, setError] = useState(null)
 	const [isLoading, setIsLoading] = useState(null)
 
-	const deleteImage = async (imagePath, imageId) => {
+	const deleteImage = async (image) => {
 		setError(null)
 		setIsLoading(true)
 
 		try {
-            const storageRef = ref(storage, imagePath)
+            const storageRef = ref(storage, image.path)
             await deleteObject(storageRef)
 
-            await deleteDoc(doc(db, 'images', imageId))
+			console.log(image)
+            await deleteDoc(doc(db, 'images', image._id))
 
 		} catch (e) {
 			setError(e.message)
