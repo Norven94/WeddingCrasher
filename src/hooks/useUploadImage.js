@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
-import { storage } from "../firebase";
+import { db, storage } from "../firebase";
 
 export const useUploadImage = () => {
     const [uploadProgress, setUploadProgress] = useState(null)
@@ -30,6 +31,16 @@ export const useUploadImage = () => {
 		}, async () => {
 			// get download url to uploaded file
 			const url = await getDownloadURL(fileRef)
+
+            await addDoc(collection(db, 'images'), {
+				created: serverTimestamp(),
+				name: image.name,
+				owner: userId,
+				path: fileRef.fullPath,
+				type: image.type,
+				url,
+                uuid
+			})
 
             setImageDetails({
                 url,

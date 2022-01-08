@@ -1,17 +1,29 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+
 import SuperButton from "../components/SuperButton";
 import Dropzone from "../components/Dropzone";
 import ImageGrid from '../components/ImageGrid'
+
 import { useAuthContext } from "../contexts/AuthContext";
 import { useDataContext } from "../contexts/DataContext";
-import { createAlbum, deleteImage } from "../api/routes/albums";
+import { useDeleteImage } from "../hooks/useDeleteImage";
+
+import { collection, addDoc } from "firebase/firestore"
+import { db } from "../firebase"
 
 const CreateAlbumPage = () => {
   const { currentUser } = useAuthContext();
-  const { images, setImages } = useDataContext();
+  const { images, setImages, imageUploadComplete } = useDataContext();
+  const [error, setError] = useState(null)
+  const useDelete = useDeleteImage();
   const nameRef = useRef();
+  
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setImages([])
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,28 +31,28 @@ const CreateAlbumPage = () => {
     // make sure the user added at least one image and a album name before trying to create the album
     console.log(images);
     if (!images.length) {
-      console.log("You need to add at least one image");
+      setError("You need to add at least one image");
     } else if (nameRef.current.value === "") {
-      console.log("You need to add a album name");
+      setError("You need to add a album name");
     } else {
-      const values = {
-        name: nameRef.current.value,
-        images,
-      };
-
       // try to create album with the uploaded images
       try {
-        await createAlbum(values, currentUser.uid);
+        await addDoc(collection(db, 'albums'), {
+          name: nameRef.current.value,
+          public: false,
+          images,
+          ownerId: currentUser.uid
+      })
         setImages([]);
         navigate("/");
       } catch (e) {
-        console.log("Got following error when creating album: ", e.message);
+        setError("Got following error when creating album: ", e.message);
       }
     }
   };
 
   const handleRemoveImage = (params) => {
-    deleteImage(params.path)
+    useDelete.deleteImage(params.path, params.uuid)
     setImages(images => images.filter(image => image.uuid !== params.uuid))
   } 
 
@@ -49,8 +61,9 @@ const CreateAlbumPage = () => {
       <h1>Create album page</h1>
       <form onSubmit={handleSubmit} className="album-form-container">
         <input className="mx-2" type="text" placeholder="Enter album name" ref={nameRef} />
-        <SuperButton className="mx-2" title="create" type="submit" />
+        <SuperButton className={`${imageUploadComplete && "disabled"} mx-2`} title="create" type="submit" />
       </form>
+      {error && <p>{error}</p>}
       <Dropzone />
       
       <ImageGrid images={images} removeImage={handleRemoveImage} />

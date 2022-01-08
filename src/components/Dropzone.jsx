@@ -6,8 +6,8 @@ import { useUploadImage } from '../hooks/useUploadImage'
 
 const Dropzone = () => {
   const { currentUser } = useAuthContext()
-  const { images, setImages } = useDataContext()
-  const { upload, uploadProgress, imageDetails, isError } = useUploadImage()
+  const { images, setImages, setImageUploadComplete } = useDataContext()
+  const { upload, uploadProgress, imageDetails, isError, isLoading } = useUploadImage()
 
   const onDrop = useCallback((acceptedFiles) => {
 
@@ -28,9 +28,9 @@ const Dropzone = () => {
     }
   }, [imageDetails])
 
-  // useEffect(() => {
-  //   console.log(images)
-  // }, [images])
+  useEffect(() => {
+    setImageUploadComplete(isLoading)
+  }, [isLoading])
 
   const {
     getRootProps,

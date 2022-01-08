@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/customer-album" element={<CustomerPage />} />
+        <Route path="/customer-album/:id" element={<CustomerPage />} />
         <Route path="/reset" element={<ResetPasswordPage />} />
         <Route path="/" element={<HomePage />} />
 

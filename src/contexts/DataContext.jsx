@@ -8,10 +8,12 @@ const useDataContext = () => {
 
 const DataContextProvider = ({ children }) => {
   const [images, setImages] = useState([])
-
+  const [imageUploadComplete, setImageUploadComplete] = useState(true)
   const values = {
     images,
     setImages,
+    imageUploadComplete,
+    setImageUploadComplete
   }
 
   return (

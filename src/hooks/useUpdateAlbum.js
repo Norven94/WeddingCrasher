@@ -13,8 +13,9 @@ export const useUpdateAlbum = () => {
         setError(false)
         setisLoading(true)
 
+        console.log(params)
         const docRef = doc(db, "albums", albumId)
-    
+        
         updateDoc(docRef, params)
             .then(() => {
                 setSuccess(true)
