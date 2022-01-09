@@ -14,22 +14,31 @@ import { db } from "../firebase"
 
 const CreateAlbumPage = () => {
   const { currentUser } = useAuthContext();
-  const { images, setImages, imageUploadComplete } = useDataContext();
+  const { images, setImages, imageUploadComplete, selectedImages } = useDataContext();
   const [error, setError] = useState(null)
   const useDelete = useDeleteImage();
   const nameRef = useRef();
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    setImages([])
-  }, [])
+    if (selectedImages) {
+      setImages(selectedImages)
+    } else {
+      setImages([])
+    }
+  
+  }, [selectedImages])
+
+  // useEffect(() => {
+  //   console.log(images)
+  
+  // }, [images])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // make sure the user added at least one image and a album name before trying to create the album
-    console.log(images);
     if (!images.length) {
       setError("You need to add at least one image");
     } else if (nameRef.current.value === "") {

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteAlbum } from "../hooks/useDeleteAlbum";
 import { useDataContext } from "../contexts/DataContext";
 import SuperButton from "../components/SuperButton";
-
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -12,6 +11,7 @@ const PopQuestion = ({
   type,
   setDeleteQuestion,
   setShareQuestion,
+  setLastImageDelete,
 }) => {
   const { setImages } = useDataContext();
   const deleteAlbumHook = useDeleteAlbum();
@@ -21,8 +21,12 @@ const PopQuestion = ({
 
   const handleDeleteAlbum = () => {
     setImages([]);
-    setDeleteQuestion(false);
-    deleteAlbumHook.deleteAlbum(albumDetails.id);
+    if (type === "delete") {
+      setDeleteQuestion(false)
+    } else {
+      setLastImageDelete(false)
+    }
+    deleteAlbumHook.deleteAlbum(albumDetails);
     navigate("/");
   };
 
@@ -30,23 +34,32 @@ const PopQuestion = ({
     console.log("Shared album with: ", emailRef.current.value);
 
     try {
-      const result = await addDoc(collection(db, 'albums'), {
+      const result = await addDoc(collection(db, "albums"), {
         name: `${albumDetails.name} - in review`,
         public: true,
         images: albumDetails.images,
         ownerId: albumDetails.ownerId,
         timestamp: serverTimestamp(),
-    })
+      });
       navigate(`/customer-album/${result.id}`);
     } catch (e) {
-      console.log(e)
+      console.log(e);
       setError("Got following error when creating album: ", e.message);
     }
   };
 
+  const hidePopQuestion = () => {
+    if (type === "delete") {
+      setDeleteQuestion(false)
+    } else {
+      setLastImageDelete(false)
+    }
+  }
+  
+
   return (
     <div className="pop-container">
-      {type === "delete" ? (
+      {(type === "delete" || type === "lastImage") ? (
         <div className="delete-box py-3 px-4">
           {deleteAlbumHook.isLoading ? (
             <p>Loading...</p>
@@ -58,11 +71,15 @@ const PopQuestion = ({
                   {deleteAlbumHook.error}
                 </p>
               )}
-              <p>Are you sure you want to delete the album?</p>
+              <p>
+                {type === "delete"
+                  ? "Are you sure you want to delete the album?"
+                  : "You are about to delete the last image in this album. An album must contain at least one image or it will be deleted. Do you wish to delete the album?"}
+              </p>
               <SuperButton
                 className="secondary mx-2"
                 title="no"
-                onClick={() => setDeleteQuestion(false)}
+                onClick={hidePopQuestion}
               />
               <SuperButton
                 className="mx-2"

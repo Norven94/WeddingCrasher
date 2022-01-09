@@ -46,7 +46,7 @@ export const useUploadImage = () => {
                 url,
                 path: fileRef.fullPath,
                 uuid,
-                _id: result.id
+                imageReference: result.id
             })
             setIsLoading(false)
             setIsSuccess(true)

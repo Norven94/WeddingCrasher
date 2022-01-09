@@ -15,7 +15,9 @@ const Dropzone = () => {
       return;
     }
 
-    upload(acceptedFiles[0], currentUser.uid);
+    acceptedFiles.map(file => {
+      upload(file, currentUser.uid);
+    })
   }, []);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const Dropzone = () => {
         path: imageDetails.path,
         url: imageDetails.url,
         uuid: imageDetails.uuid,
-        _id: imageDetails._id
+        imageReference: imageDetails.imageReference
       }])
     }
   }, [imageDetails])
@@ -40,7 +42,7 @@ const Dropzone = () => {
   } = useDropzone({
     accept: "image/gif, image/jpeg, image/png, image/webp",
     onDrop,
-    maxFiles: 1,
+    maxFiles: 2,
   });
 
   return (

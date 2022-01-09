@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSnapshotDocument } from "../hooks/useSnapshotDocument";
 import { useUpdateAlbum } from '../hooks/useUpdateAlbum'
 import { useDataContext } from "../contexts/DataContext";
@@ -13,54 +13,60 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const AlbumPage = () => {
   const { id } = useParams();
-
+  
   const { data, loading } = useSnapshotDocument(id);
   const updateHook = useUpdateAlbum()
   const deleteImageHook = useDeleteImage()
-  const { images, setImages } = useDataContext();
+  const { images, setImages, selectedImages, setSelectedImages } = useDataContext();
 
   const [isEditing, setIsEditing] = useState(false)
   const [deleteQuestion, setDeleteQuestion] = useState(false)
+  const [lastImageDelete, setLastImageDelete] = useState(false)
   const [shareQuestion, setShareQuestion] = useState(false)
   const albumNameRef = useRef()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (data) {
       console.log(data)
       setImages(data.images);
     }
+    setSelectedImages([])
   }, [data]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const newImages = {
-  //       images
-  //     }
-  //     updateHook.updateAlbum(newImages, data.id)
-  //   }
-  // }, [images])
+  useEffect(() => {
+    if (data) {
+      updateHook.updateAlbum({images}, data.id)
+    }
+  }, [images])
 
   const handleRemoveImage = (params) => {
-    deleteImageHook.deleteImage(params);
-    setImages((images) => images.filter((image) => image.uuid !== params.uuid));
+    if (!updateHook.isLoading && !deleteImageHook.isLoading) {
+      //If only one image remains in album, ask to delete hole album instead
+      if (images.length < 2) {
+        setLastImageDelete(true)
+      } else {
+        //Remove the image from the album images array
+        const noRemovedImages = images.filter((image) => image.uuid !== params.uuid)
+        updateHook.updateAlbum({images: noRemovedImages}, data.id)
+        //Try to remove the image doc and storage if there is no copy of the image in other albums
+        deleteImageHook.deleteImage(params);
+        setImages(noRemovedImages);
+      }
+    }
   };
 
   const updateName = e => {
     e.preventDefault()
 
     if (!updateHook.isLoading) {
-      const newName = {
-        name: albumNameRef.current.value
-      }
-      updateHook.updateAlbum(newName, data.id)
+      updateHook.updateAlbum({name: albumNameRef.current.value}, data.id)
       setIsEditing(false)
     }
   }
 
-  const makePrivate = () => {
-    if (!updateHook.isLoading) {
-      updateHook.updateAlbum({public: false}, data.id)
-    }
+  const createFromSelection = () => {
+    navigate("/create")
   }
   
 
@@ -84,11 +90,10 @@ const AlbumPage = () => {
                 </div>
               </div>
             )}
-            {!data.public ? (
-              <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Share album" onClick={() => setShareQuestion(true)} />
-            ) : (
-              <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Being reviewed" onClick={makePrivate} />
-            )}
+            <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Share album" onClick={() => setShareQuestion(true)} />
+          </div>
+          <div className="my-2 create-selected-container">
+            <span className="create-on-selected" onClick={createFromSelection}>Create new album based on selected images</span>
           </div>
           {updateHook.success && <p>Successfully updated changes</p>}
           {updateHook.error && <p>{updateHook.error}</p>}
@@ -96,8 +101,8 @@ const AlbumPage = () => {
           <ImageGrid images={images} removeImage={handleRemoveImage} />
         </div>
       )}
-      {(deleteQuestion || shareQuestion) && (
-        <PopQuestion albumDetails={data} type={deleteQuestion ? "delete" : "share"} setDeleteQuestion={setDeleteQuestion} setShareQuestion={setShareQuestion} />
+      {(deleteQuestion || lastImageDelete || shareQuestion) && (
+        <PopQuestion albumDetails={data} type={lastImageDelete ? "lastImage" : deleteQuestion ? "delete" : "share"} setDeleteQuestion={setDeleteQuestion} setShareQuestion={setShareQuestion} setLastImageDelete={setLastImageDelete}/>
       )}
     </div>
   );

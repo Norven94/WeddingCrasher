@@ -17,6 +17,21 @@
             }
         }
     }
+
+    .create-selected-container {
+        text-align: left; 
+        
+        .create-on-selected {
+            color: $red;
+            font-weight: 600;
+            transition: .3s;
+            cursor: pointer;
+
+            &:hover {
+                color: $purple;
+            }
+        }
+    }
 }
 
 .pop-container {

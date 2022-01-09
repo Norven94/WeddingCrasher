@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./assets/sass/index.scss";
 import App from "./App";
+import SimpleReactLightbox from 'simple-react-lightbox'
 import AuthContextProvider from './contexts/AuthContext'
 import DataContextProvider from './contexts/DataContext'
 
@@ -11,7 +12,9 @@ ReactDOM.render(
     <BrowserRouter>
       <AuthContextProvider>
         <DataContextProvider>
-          <App />
+          <SimpleReactLightbox>
+            <App />
+          </SimpleReactLightbox>
         </DataContextProvider>
       </AuthContextProvider>
     </BrowserRouter>

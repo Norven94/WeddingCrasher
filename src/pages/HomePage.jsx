@@ -22,7 +22,6 @@ const HomePage = () => {
           {loading && <p>Loading...</p>}
           {data && (
             <div className="albums-container">
-              {console.log(data)}
               {data.map((album) => (
                 <div key={album.id} className="album-card" onClick={() => navigate(`/album/${album.id}`)}>
                   <h2>{album.name}</h2>
