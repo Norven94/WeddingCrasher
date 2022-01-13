@@ -28,7 +28,6 @@ const AlbumPage = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data)
       setImages(data.images);
     }
     setSelectedImages([])

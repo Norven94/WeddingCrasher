@@ -31,7 +31,6 @@ const LoginPage = () => {
         setErrorMessage("Email is already taken!")
         setLoading(false)
       }
-      console.log(e.message)
       setLoading(false)
     }
   }
