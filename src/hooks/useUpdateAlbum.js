@@ -8,12 +8,10 @@ export const useUpdateAlbum = () => {
     const [success, setSuccess] = useState(false)
     
     const updateAlbum = (params, albumId) => {
-        console.log({params, albumId})
         setSuccess(false)
         setError(false)
         setisLoading(true)
 
-        console.log(params)
         const docRef = doc(db, "albums", albumId)
         
         updateDoc(docRef, params)
