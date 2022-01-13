@@ -7,7 +7,7 @@ import { SRLWrapper } from 'simple-react-lightbox'
 
 const masonryBreakpoints = {
 	default: 3,
-	576: 2,
+	576: 1,
 	992: 3,
 }
 

@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import SuperButton from "../components/SuperButton";
+import {Button} from "../components/styled/Button";
+import { InputText } from "../components/styled/InputText";
+import {PageContainer} from "../components/styled/PageContainer"
+import {Form} from "../components/styled/Form"
 import Dropzone from "../components/Dropzone";
 import ImageGrid from '../components/ImageGrid'
 
@@ -62,17 +65,17 @@ const CreateAlbumPage = () => {
   } 
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       <h1>Create album page</h1>
-      <form onSubmit={handleSubmit} className="album-form-container">
-        <input className="mx-2" type="text" placeholder="Enter album name" ref={nameRef} />
-        <SuperButton className={`${imageUploadComplete && "disabled"} mx-2`} title="create" type="submit" />
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <InputText className="mx-2" type="text" placeholder="Enter album name" ref={nameRef} />
+        <Button className={`${imageUploadComplete && "disabled"} mx-2`} type="submit">create</Button>
+      </Form>
       {error && <p>{error}</p>}
       <Dropzone />
       
       <ImageGrid images={images} removeImage={handleRemoveImage} isNewAlbum={true} />
-    </div>
+    </PageContainer>
   );
 };
 

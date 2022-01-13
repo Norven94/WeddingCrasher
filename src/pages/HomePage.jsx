@@ -2,7 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useSnapshotCollection } from "../hooks/useSnapshotCollection";
-import SuperButton from "../components/SuperButton";
+import {Button} from "../components/styled/Button";
+import {PageContainer} from "../components/styled/PageContainer"
+import { AlbumGrid } from "../components/styled/AlbumGrid";
+import { AlbumCard } from "../components/styled/AlbumCard";
 
 const HomePage = () => {
   const { currentUser } = useAuthContext();
@@ -11,34 +14,33 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       {currentUser ? (
         <div>
-          <SuperButton
+          <Button
             className="my-4 big"
             onClick={() => navigate("/create")}
-            title="create album"
-          />
+          >Create album</Button>
           {loading && <p>Loading...</p>}
           {data && (
-            <div className="albums-container">
+            <AlbumGrid>
               {data.map((album) => (
-                <div key={album.id} className="album-card" onClick={() => navigate(`/album/${album.id}`)}>
+                <AlbumCard key={album.id} className="my-2" onClick={() => navigate(`/album/${album.id}`)}>
                   <h2>{album.name}</h2>
                   <p>Created: {album.timestamp.toDate().toDateString()}</p>
                   <p>Images: {album.images.length}</p>
-                </div>
+                </AlbumCard>
               ))}
-            </div>
+            </AlbumGrid>
           )}
         </div>
       ) : (
         <div>
           <p>Login or create a new account for more features</p>
-          <SuperButton onClick={() => navigate("/signup")} title="Signup" />
+          <Button onClick={() => navigate("/signup")}>Signup</Button>
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

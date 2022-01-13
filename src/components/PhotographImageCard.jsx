@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDataContext } from "../contexts/DataContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { ImageCard } from '../components/styled/ImageCard'
 
 const PhotographImageCard = ({ image, removeImage, isNewAlbum }) => {
     const { selectedImages, setSelectedImages } = useDataContext()
@@ -21,7 +22,7 @@ const PhotographImageCard = ({ image, removeImage, isNewAlbum }) => {
 
 
     return (
-        <div className="image-card" >
+        <ImageCard >
             <img src={image.url} alt={image.uuid} />
             <div className="fa-icon">
                 <FontAwesomeIcon
@@ -35,7 +36,7 @@ const PhotographImageCard = ({ image, removeImage, isNewAlbum }) => {
                     <input type="checkbox" checked={isSelected ? true : false} onChange={handleImageSelect} />
                 </div>
             )}
-        </div>
+        </ImageCard>
     )
 }
 

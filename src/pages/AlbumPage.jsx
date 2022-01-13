@@ -6,10 +6,15 @@ import { useDataContext } from "../contexts/DataContext";
 import { useDeleteImage } from "../hooks/useDeleteImage";
 import ImageGrid from "../components/ImageGrid";
 import Dropzone from "../components/Dropzone";
-import SuperButton from "../components/SuperButton";
+import {Button} from "../components/styled/Button";
+import { InputText } from "../components/styled/InputText";
+import { TextLink } from "../components/styled/TextLink";
+import { Heading } from "../components/styled/Heading";
+import {PageContainer} from "../components/styled/PageContainer"
 import PopQuestion from "../components/PopQuestion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import toast, { Toaster } from "react-hot-toast";
 
 const AlbumPage = () => {
   const { id } = useParams();
@@ -59,8 +64,18 @@ const AlbumPage = () => {
     e.preventDefault()
 
     if (!updateHook.isLoading) {
-      updateHook.updateAlbum({name: albumNameRef.current.value}, data.id)
-      setIsEditing(false)
+      if (albumNameRef.current.value !== "") {
+        updateHook.updateAlbum({name: albumNameRef.current.value}, data.id)
+        if (updateHook.success) {
+          toast.success("Successfully updated changes");
+        }
+        if (updateHook.error) {
+          toast.error(updateHook.error);
+        }
+        setIsEditing(false)
+      } else {
+        setIsEditing(false)
+      }
     }
   }
 
@@ -70,16 +85,17 @@ const AlbumPage = () => {
   
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       {loading && <p>Loading...</p>}
       {data && (
-        <div className="album-container">
-          <div className="mt-2 heading-container">
-            <SuperButton className={`${updateHook.isLoading && "disabled"} mr-4 secondary`} title="Delete album" onClick={() => setDeleteQuestion(true)} />
+        <div>
+          <Toaster />
+          <Heading>
+            <Button className={`${updateHook.isLoading && "disabled"} mr-4 secondary`} onClick={() => setDeleteQuestion(true)}>Delete album</Button>
             {isEditing ? (
               <form className="album-name-container" onSubmit={updateName}>
-                <input type="text" placeholder="Enter new album name" ref={albumNameRef} />
-                <SuperButton className={`${updateHook.isLoading && "disabled"} ml-2`} title="Change" type="submit" />
+                <InputText type="text" placeholder="Enter new album name" ref={albumNameRef} />
+                <Button className={`${updateHook.isLoading && "disabled"} ml-2`} type="submit">Change</Button>
               </form>
             ) : (
               <div className="album-name-container">
@@ -89,13 +105,11 @@ const AlbumPage = () => {
                 </div>
               </div>
             )}
-            <SuperButton className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} title="Share album" onClick={() => setShareQuestion(true)} />
-          </div>
-          <div className="my-2 create-selected-container">
-            <span className="create-on-selected" onClick={createFromSelection}>Create new album based on selected images</span>
-          </div>
-          {updateHook.success && <p>Successfully updated changes</p>}
-          {updateHook.error && <p>{updateHook.error}</p>}
+            <Button className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} onClick={() => setShareQuestion(true)}>Share album</Button>
+          </Heading>
+          <TextLink align="left">
+            <span className="text-link-span" onClick={createFromSelection}>Create new album based on selected images</span>
+          </TextLink>
           <Dropzone />
           <ImageGrid images={images} removeImage={handleRemoveImage} isNewAlbum={false} />
         </div>
@@ -103,7 +117,7 @@ const AlbumPage = () => {
       {(deleteQuestion || lastImageDelete || shareQuestion) && (
         <PopQuestion albumDetails={data} type={lastImageDelete ? "lastImage" : deleteQuestion ? "delete" : "share"} setDeleteQuestion={setDeleteQuestion} setShareQuestion={setShareQuestion} setLastImageDelete={setLastImageDelete}/>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

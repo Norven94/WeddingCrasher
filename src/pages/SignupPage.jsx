@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SuperButton from "../components/SuperButton";
+import { Button } from "../components/styled/Button";
+import { InputText } from "../components/styled/InputText";
+import { Notification } from "../components/styled/Notification";
+import { Form } from "../components/styled/Form";
+import {PageContainer} from "../components/styled/PageContainer";
 import { useInput } from "../hooks/useInput";
-import { createUser } from '../api/routes/users'
+import { createUser } from '../api/routes/users';
 
 const SignupPage = () => {
   const { value:email, set:setEmail, reset:resetEmail } = useInput('');
@@ -37,20 +41,20 @@ const SignupPage = () => {
   
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       <h1>Signup page</h1>
-      <form className="form-container" onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div className="input-container">
-          <input className="m-1" type="email" placeholder="Enter email" {...setEmail} required/>
-          <input className="m-1" type="password" placeholder="Enter password" {...setPassword} required/>
+          <InputText className="m-1" type="email" placeholder="Enter email" {...setEmail} required/>
+          <InputText className="m-1" type="password" placeholder="Enter password" {...setPassword} required/>
         </div>
-        <span className="error-message">{errorMessage && errorMessage}</span>
+        {errorMessage && <Notification color="#FF9B9B">{errorMessage}</Notification>}
         <div className="mt-2 button-container">
-          <SuperButton className="mx-1 secondary" onClick={() => navigate('/login')} title="Back"  />
-          <SuperButton className={`${loading && "disabled"} mx-1`} title="Signup" loading={loading} type="submit"/>
+          <Button className="mx-1 secondary" onClick={() => navigate('/login')}>Back</Button>
+          <Button className={`${loading && "disabled"} mx-1`} disabled={loading} type="submit">Signup</Button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </PageContainer>
   );
 };
 

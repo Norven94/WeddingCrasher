@@ -1,29 +1,17 @@
-//Components
-@import "superbutton";
-@import "inputfield";
-@import "navbar";
-@import "dropzone";
-@import "imagegrid";
-
-//Pages
-@import "loginpage";
-@import "createalbumpage";
-@import "homepage";
-@import "albumpage";
-@import "customerpage";
-
 //Globals
-@import "variables";
-@import "layout";
 @import "margin";
-@import "padding";
 
+.masonry-container {
+	display: flex;
+	margin-left: -10px;
+	width: auto;
 
-.App {
-  text-align: center;
-}
+	.masonry-column {
+		margin-left: 10px;
+		background-clip: padding-box;
 
-.loginContainer {
-  width: 400px;
-  margin: auto;
+		> * {
+			margin-bottom: 10px;
+		}
+	}
 }

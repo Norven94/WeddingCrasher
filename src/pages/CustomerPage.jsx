@@ -5,7 +5,10 @@ import { useUpdateAlbum } from '../hooks/useUpdateAlbum'
 import { useDeleteImage } from "../hooks/useDeleteImage";
 import { useDataContext } from "../contexts/DataContext";
 import ImageGrid from "../components/ImageGrid";
-import SuperButton from "../components/SuperButton";
+import {Button} from "../components/styled/Button";
+import {PageContainer} from "../components/styled/PageContainer"
+import { Heading } from "../components/styled/Heading";
+import { TotalContainer } from "../components/styled/TotalContainer";
 import PopQuestion from "../components/PopQuestion";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -60,22 +63,21 @@ const CustomerPage = () => {
   };
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       {loading && <p>Loading...</p>}
       {data && (
         <>
           {data.public ? (
             <div className="customer-container">
               <Toaster />
-              <div className="my-2 heading-container">
+              <Heading>
                 <h1>{data.name}</h1>
-                <SuperButton
+                <Button
                   className="ml-3"
-                  title="Save"
                   onClick={handleSave}
-                />
-              </div>
-              <div className="mb-2 total-container">
+                >Save</Button>
+              </Heading>
+              <TotalContainer>
                 <span className="total-big">
                   Total images{" "}
                   {newImages.filter((image) => !image.remove).length}
@@ -87,7 +89,7 @@ const CustomerPage = () => {
                     : ""}
                   )
                 </span>
-              </div>
+              </TotalContainer>
               <ImageGrid images={images} />
             </div>
           ) : (
@@ -98,7 +100,7 @@ const CustomerPage = () => {
       {lastImageDelete && (
         <PopQuestion albumDetails={data} type="lastImage" setLastImageDelete={setLastImageDelete}/>
       )}
-    </div>
+    </PageContainer>
   );
 };
 

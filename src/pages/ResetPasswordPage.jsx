@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SuperButton from "../components/SuperButton";
+import { Button } from "../components/styled/Button";
+import { Notification } from "../components/styled/Notification";
+import { InputText } from "../components/styled/InputText";
+import { Form } from "../components/styled/Form";
+import {PageContainer} from "../components/styled/PageContainer";
 import { useInput } from "../hooks/useInput";
 import { resetPw } from "../api/routes/users";
 
@@ -31,40 +35,41 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       <h1>Forgot Password?</h1>
       <p>Please enter your email and we'll send you a reset email</p>
-      <form className="form-container" onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <div className="input-container">
-          <input
+          <InputText
             type="email"
             placeholder="Enter email"
             {...setEmail}
             required
           />
         </div>
-        <span
-          className={
-            message.type === "error" ? "error-message" : "success-message"
-          }
-        >
-          {message && message.text}
-        </span>
+        {message && (
+          <Notification
+          
+            color={
+              message.type === "error" ? "#FF9B9B" : "#9FD08D"
+            }
+          >
+          {message.text}
+          </Notification>
+        )}
         <div className="mt-2 button-container">
-          <SuperButton
+          <Button
             className="mx-1 secondary"
             onClick={() => navigate("/login")}
-            title="Back"
-          />
-          <SuperButton
+          >Back</Button>
+          <Button
             className={`${loading && "disabled"} mx-1`}
-            title="Send"
-            loading={loading}
+            disabled={loading}
             type="submit"
-          />
+          >Send</Button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </PageContainer>
   );
 };
 

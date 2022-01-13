@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SuperButton from "../components/SuperButton";
+import { Button } from "../components/styled/Button";
+import { InputText } from "../components/styled/InputText";
+import { Notification } from "../components/styled/Notification";
+import { Form } from "../components/styled/Form";
+import {PageContainer} from "../components/styled/PageContainer";
 import { useInput } from "../hooks/useInput";
-import { loginUser } from '../api/routes/users'
+import { loginUser } from '../api/routes/users';
 
 const LoginPage = () => {
   const { value:email, set:setEmail, reset:resetEmail } = useInput('');
@@ -21,14 +25,12 @@ const LoginPage = () => {
       navigate('/')
       setLoading(false)
     } catch (e) {
-      if (e.message.match(/weak-password/)) {
-        setErrorMessage("Password should be at least 6 characters!")
+      console.log(e.message)
+      if (e.message.match(/user-not-found/)) {
+        setErrorMessage("We can not find any user with that email")
         setLoading(false)
-      } else if (e.message.match(/invalid-email/)) {
-        setErrorMessage("Email format not valid!")
-        setLoading(false)
-      } else if (e.message.match(/email-already-in-use/)) {
-        setErrorMessage("Email is already taken!")
+      } else if (e.message.match(/wrong-password/)) {
+        setErrorMessage("You entered wrong password")
         setLoading(false)
       }
       setLoading(false)
@@ -36,21 +38,21 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="pageContainer">
+    <PageContainer>
       <h1>Login page</h1>
-      <form className="form-container" onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
+        {errorMessage && <Notification color="#FF9B9B">{errorMessage}</Notification>}
         <div className="input-container">
-          <input className="m-1" type="email" placeholder="Enter email" {...setEmail} required/>
-          <input className="m-1" type="password" placeholder="Enter password" {...setPassword} required/>
+          <InputText className="m-1" type="email" placeholder="Enter email" {...setEmail} required/>
+          <InputText className="m-1" type="password" placeholder="Enter password" {...setPassword} required/>
         </div>
-        <span className="error-message">{errorMessage && errorMessage}</span>
         <Link to="/reset">Forgot Password?</Link> 
         <div className="mt-2 button-container">
-          <SuperButton className="mx-1 secondary" onClick={() => navigate('/signup')} title="Signup" />
-          <SuperButton className={`${loading && "disabled"} mx-1`} title="Login" loading={loading} type="submit"/>
+          <Button className="mx-1 secondary" onClick={() => navigate('/signup')}>Signup</Button>
+          <Button className={`${loading && "disabled"} mx-1`} disabled={loading} type="submit">Login</Button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </PageContainer>
   );
 };
 

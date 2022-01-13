@@ -1,8 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteAlbum } from "../hooks/useDeleteAlbum";
 import { useDataContext } from "../contexts/DataContext";
-import SuperButton from "../components/SuperButton";
+import {Button} from "../components/styled/Button";
+import { PopUp } from "../components/styled/PopUp";
+import { InputText } from "../components/styled/InputText";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -52,7 +54,7 @@ const PopQuestion = ({
   
 
   return (
-    <div className="pop-container">
+    <PopUp>
       {(type === "delete" || type === "lastImage") ? (
         <div className="delete-box py-3 px-4">
           {deleteAlbumHook.isLoading ? (
@@ -70,16 +72,14 @@ const PopQuestion = ({
                   ? "Are you sure you want to delete the album?"
                   : "You are about to delete the last image in this album. An album must contain at least one image or it will be deleted. Do you wish to delete the album?"}
               </p>
-              <SuperButton
+              <Button
                 className="secondary mx-2"
-                title="no"
                 onClick={hidePopQuestion}
-              />
-              <SuperButton
+              >no</Button>
+              <Button
                 className="mx-2"
-                title="yes"
                 onClick={handleDeleteAlbum}
-              />
+              >yes</Button>
             </>
           )}
         </div>
@@ -87,27 +87,25 @@ const PopQuestion = ({
         <div className="share-box py-3 px-4">
           {error && <p>{error}</p>}
           <p>Do you wish to share the album?</p>
-          <input
+          <InputText
             className="mb-3"
             type="text"
             placeholder="Enter email"
             ref={emailRef}
           />
           <div>
-            <SuperButton
+            <Button
               className="secondary mx-2"
-              title="no"
               onClick={() => setShareQuestion(false)}
-            />
-            <SuperButton
+            >no</Button>
+            <Button
               className="mx-2"
-              title="Send"
               onClick={handleShareAlbum}
-            />
+            >Send</Button>
           </div>
         </div>
       )}
-    </div>
+    </PopUp>
   );
 };
 

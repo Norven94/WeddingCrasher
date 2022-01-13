@@ -1,6 +1,6 @@
-@import "./variables.scss";
+import styled from 'styled-components';
 
-.form-container {
+export const Form = styled.form`
     max-width: 100%;
 
     .input-container {
@@ -10,17 +10,9 @@
             width: 250px;
         }
 
-        @media #{$md} {
+        @media ${({ theme }) => theme.medias.md} {
             flex-direction: row;       
         }
-    }
-
-    .error-message {
-        color: $red;
-    }
-
-    .success-message {
-        color: $green;
     }
 
     .button-container {
@@ -28,4 +20,4 @@
         flex-direction: row;
         justify-content: center;
     }
-}
+`

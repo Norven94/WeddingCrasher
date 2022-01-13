@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { useDataContext } from "../contexts/DataContext";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useUploadImage } from '../hooks/useUploadImage'
+import { StyledDropZone } from "./styled/StyledDropZone";
 import ProgressBar from "./ProgressBar";
 
 const Dropzone = () => {
@@ -48,7 +49,7 @@ const Dropzone = () => {
   });
 
   return (
-    <div {...getRootProps()} id="dropzone-container">
+    <StyledDropZone {...getRootProps()} >
       <input {...getInputProps()} />
 
     <p>Add images</p>
@@ -66,7 +67,7 @@ const Dropzone = () => {
           </div>
         </div>
       )}
-    </div>
+    </StyledDropZone>
   );
 };
 

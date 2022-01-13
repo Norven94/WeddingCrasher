@@ -1,4 +1,7 @@
 import React from "react";
+import { ThemeProvider } from "styled-components";
+import { theme } from './assets/theme'
+import GlobalStyles from './components/styled/Global';
 import { Route, Routes } from "react-router-dom";
 import "./assets/sass/App.scss";
 import Navbar from "./components/Navbar";
@@ -14,28 +17,32 @@ import SecureRoute from './components/SecureRoute'
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <Routes>
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/customer-album/:id" element={<CustomerPage />} />
-        <Route path="/reset" element={<ResetPasswordPage />} />
-        <Route path="/" element={<HomePage />} />
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <Navbar />
+        <Routes>
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/customer-album/:id" element={<CustomerPage />} />
+          <Route path="/reset" element={<ResetPasswordPage />} />
+          <Route path="/" element={<HomePage />} />
 
-        {/* Secure routes */}
-        <Route path="/album/:id" element={
-          <SecureRoute redirectTo="/login">
-            <AlbumPage />
-          </SecureRoute>
-        } />
+          {/* Secure routes */}
+          <Route path="/album/:id" element={
+            <SecureRoute redirectTo="/login">
+              <AlbumPage />
+            </SecureRoute>
+          } />
 
-        <Route path="/create" element={
-          <SecureRoute redirectTo="/login">
-            <CreateAlbumPage />
-          </SecureRoute>
-        } />
-      </Routes>
+          <Route path="/create" element={
+            <SecureRoute redirectTo="/login">
+              <CreateAlbumPage />
+            </SecureRoute>
+          } />
+        </Routes>
+      </ThemeProvider>
     </div>
+    
   );
 }
 

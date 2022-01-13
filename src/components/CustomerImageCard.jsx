@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import SuperButton from '../components/SuperButton'
+import {Button} from '../components/styled/Button';
+import { ImageCard } from '../components/styled/ImageCard';
 import { useDataContext } from "../contexts/DataContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -33,17 +34,17 @@ const CustomerImageCard = ({ image }) => {
     }
 
     return (
-        <div key={image.uuid} className={`image-card ${keep && "keep"} ${remove && "remove"}`} >
+        <ImageCard key={image.uuid} className={`${keep && "keep"} ${remove && "remove"}`} >
             <div className="review-btn">
-                {!vote && <SuperButton className="small" title="Review" onClick={() => setVote(true)} />}
+                {!vote && <Button className="small" onClick={() => setVote(true)}>Review</Button>}
             </div>
             {vote && (
                 <div className="vote-overlay">
                     <div className="vote-box">
                         <p>Do you want to keep the image?</p>
                         <div className="mt-3 btn-box">
-                            <SuperButton className="m-1 secondary small" title="no" onClick={handleRemove} />
-                            <SuperButton className="m-1 small" title="yes" onClick={handleKeep} />
+                            <Button className="m-1 secondary small" onClick={handleRemove}>no</Button>
+                            <Button className="m-1 small" onClick={handleKeep}>yes</Button>
                         </div>
                     </div>
                     <div className="fa-icon">
@@ -52,7 +53,7 @@ const CustomerImageCard = ({ image }) => {
                 </div>
             )}
             <img src={image.url} alt={image.uuid} />
-        </div>
+        </ImageCard>
     )
 }
 
