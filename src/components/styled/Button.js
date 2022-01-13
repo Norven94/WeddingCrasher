@@ -10,17 +10,22 @@ export const Button = styled.button`
     box-shadow: 1px 1px 5px ${({ theme }) => theme.colors.boxShadow};
 
     &.big {
-        width: 200px;
+        width: 150px;
         padding: 20px 10px;
         border-radius: 40px;
-        font-size: ${({ theme }) => theme.fontSize.desktopL}
+        font-size: ${({ theme }) => theme.fontSize.medium}
+
+        @media ${({ theme }) => theme.medias.md} {
+            width: 200px;
+            font-size: ${({ theme }) => theme.fontSize.large}      
+        }
     }
 
     &.small {
         width: 80px;
         padding: 6px 3px;
         border-radius: 20px;
-        font-size: font-size: ${({ theme }) => theme.fontSize.desktopXS}
+        font-size: font-size: ${({ theme }) => theme.fontSize.xSmall}
     }
 
     &.secondary {

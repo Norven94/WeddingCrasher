@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import "./assets/sass/index.scss";
 import App from "./App";
 import SimpleReactLightbox from 'simple-react-lightbox'
 import AuthContextProvider from './contexts/AuthContext'

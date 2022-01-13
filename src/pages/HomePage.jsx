@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useSnapshotCollection } from "../hooks/useSnapshotCollection";
-import {Button} from "../components/styled/Button";
-import {PageContainer} from "../components/styled/PageContainer"
+import { Button } from "../components/styled/Button";
+import { PageContainer } from "../components/styled/PageContainer";
 import { AlbumGrid } from "../components/styled/AlbumGrid";
 import { AlbumCard } from "../components/styled/AlbumCard";
 
@@ -17,15 +17,18 @@ const HomePage = () => {
     <PageContainer>
       {currentUser ? (
         <div>
-          <Button
-            className="my-4 big"
-            onClick={() => navigate("/create")}
-          >Create album</Button>
+          <Button className="my-4 big" onClick={() => navigate("/create")}>
+            Create album
+          </Button>
           {loading && <p>Loading...</p>}
           {data && (
             <AlbumGrid>
               {data.map((album) => (
-                <AlbumCard key={album.id} className="my-2" onClick={() => navigate(`/album/${album.id}`)}>
+                <AlbumCard
+                  key={album.id}
+                  className="my-2"
+                  onClick={() => navigate(`/album/${album.id}`)}
+                >
                   <h2>{album.name}</h2>
                   <p>Created: {album.timestamp.toDate().toDateString()}</p>
                   <p>Images: {album.images.length}</p>

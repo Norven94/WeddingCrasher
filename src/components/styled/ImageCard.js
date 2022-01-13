@@ -45,7 +45,8 @@ export const ImageCard = styled.div`
             -webkit-appearance: none;
             background-color: ${({ theme }) => theme.colors.white};
             border: 1px solid ${({ theme }) => theme.colors.red};
-            padding: 20px;
+            padding: 18px;
+            border-radius: 18px;
             transition: .3s;
 
             &:checked {
@@ -54,8 +55,8 @@ export const ImageCard = styled.div`
                 position: relative;
                 
                 &:after {
-                    content: '\2714';
-                    font-size: 24px;
+                    content: "\\2714";
+                    font-size: 18px;
                     position: absolute;
                     top: 52%;
                     left: 52%;
@@ -99,7 +100,7 @@ export const ImageCard = styled.div`
             }
 
             p {
-                font-size: ${({ theme }) => theme.fontSize.desktopXS};
+                font-size: ${({ theme }) => theme.fontSize.xSmall};
                 margin: 10 0 0 0;
             }
 

@@ -25,10 +25,10 @@ export const useDeleteImage = () => {
       );
       const snapshot = await getDocs(queryRef);
       if (snapshot.docs.length < 1) {
-		//If there are no copies of the image left in the albums then delete the image doc and remove it from storage
-		const storageRef = ref(storage, image.path);
-		await deleteObject(storageRef);
-		await deleteDoc(doc(db, "images", image.imageReference));
+        //If there are no copies of the image left in the albums then delete the image doc and remove it from storage
+        const storageRef = ref(storage, image.path);
+        await deleteObject(storageRef);
+        await deleteDoc(doc(db, "images", image.imageReference));
       }
     } catch (e) {
       setError(e.message);

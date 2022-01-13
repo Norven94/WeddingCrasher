@@ -4,7 +4,7 @@ import { Button } from "../components/styled/Button";
 import { Notification } from "../components/styled/Notification";
 import { InputText } from "../components/styled/InputText";
 import { Form } from "../components/styled/Form";
-import {PageContainer} from "../components/styled/PageContainer";
+import { PageContainer } from "../components/styled/PageContainer";
 import { useInput } from "../hooks/useInput";
 import { resetPw } from "../api/routes/users";
 
@@ -49,24 +49,22 @@ const ResetPasswordPage = () => {
         </div>
         {message && (
           <Notification
-          
-            color={
-              message.type === "error" ? "#FF9B9B" : "#9FD08D"
-            }
+            color={message.type === "error" ? "#FF9B9B" : "#9FD08D"}
           >
-          {message.text}
+            {message.text}
           </Notification>
         )}
         <div className="mt-2 button-container">
-          <Button
-            className="mx-1 secondary"
-            onClick={() => navigate("/login")}
-          >Back</Button>
+          <Button className="mx-1 secondary" onClick={() => navigate("/login")}>
+            Back
+          </Button>
           <Button
             className={`${loading && "disabled"} mx-1`}
             disabled={loading}
             type="submit"
-          >Send</Button>
+          >
+            Send
+          </Button>
         </div>
       </Form>
     </PageContainer>

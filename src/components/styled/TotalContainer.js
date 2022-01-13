@@ -7,10 +7,10 @@ export const TotalContainer = styled.div`
         color: ${({ theme }) => theme.colors.red};
     }
     .total-big {
-        font-size: ${({ theme }) => theme.fontSize.desktopL};
+        font-size: ${({ theme }) => theme.fontSize.large};
         font-weight: 600;
     }
     .total-small {
-        font-size: ${({ theme }) => theme.fontSize.dekstopS};
+        font-size: ${({ theme }) => theme.fontSize.small};
     }
 `

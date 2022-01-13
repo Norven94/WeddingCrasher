@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteAlbum } from "../hooks/useDeleteAlbum";
 import { useDataContext } from "../contexts/DataContext";
-import {Button} from "../components/styled/Button";
+import { Button } from "../components/styled/Button";
 import { PopUp } from "../components/styled/PopUp";
 import { InputText } from "../components/styled/InputText";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -46,16 +46,15 @@ const PopQuestion = ({
 
   const hidePopQuestion = () => {
     if (type === "delete") {
-      setDeleteQuestion(false)
+      setDeleteQuestion(false);
     } else {
-      setLastImageDelete(false)
+      setLastImageDelete(false);
     }
-  }
-  
+  };
 
   return (
     <PopUp>
-      {(type === "delete" || type === "lastImage") ? (
+      {type === "delete" || type === "lastImage" ? (
         <div className="delete-box py-3 px-4">
           {deleteAlbumHook.isLoading ? (
             <p>Loading...</p>
@@ -72,14 +71,12 @@ const PopQuestion = ({
                   ? "Are you sure you want to delete the album?"
                   : "You are about to delete the last image in this album. An album must contain at least one image or it will be deleted. Do you wish to delete the album?"}
               </p>
-              <Button
-                className="secondary mx-2"
-                onClick={hidePopQuestion}
-              >no</Button>
-              <Button
-                className="mx-2"
-                onClick={handleDeleteAlbum}
-              >yes</Button>
+              <Button className="secondary mx-2" onClick={hidePopQuestion}>
+                no
+              </Button>
+              <Button className="mx-2" onClick={handleDeleteAlbum}>
+                yes
+              </Button>
             </>
           )}
         </div>
@@ -97,11 +94,12 @@ const PopQuestion = ({
             <Button
               className="secondary mx-2"
               onClick={() => setShareQuestion(false)}
-            >no</Button>
-            <Button
-              className="mx-2"
-              onClick={handleShareAlbum}
-            >Send</Button>
+            >
+              no
+            </Button>
+            <Button className="mx-2" onClick={handleShareAlbum}>
+              Send
+            </Button>
           </div>
         </div>
       )}

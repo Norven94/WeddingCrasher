@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import { theme } from './assets/theme'
-import GlobalStyles from './components/styled/Global';
+import { theme } from "./assets/theme";
+import GlobalStyles from "./components/styled/Global";
 import { Route, Routes } from "react-router-dom";
 import "./assets/sass/App.scss";
 import Navbar from "./components/Navbar";
@@ -12,7 +12,7 @@ import HomePage from "./pages/HomePage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AlbumPage from "./pages/AlbumPage";
 import CreateAlbumPage from "./pages/CreateAlbumPage";
-import SecureRoute from './components/SecureRoute'
+import SecureRoute from "./components/SecureRoute";
 
 function App() {
   return (
@@ -28,21 +28,26 @@ function App() {
           <Route path="/" element={<HomePage />} />
 
           {/* Secure routes */}
-          <Route path="/album/:id" element={
-            <SecureRoute redirectTo="/login">
-              <AlbumPage />
-            </SecureRoute>
-          } />
+          <Route
+            path="/album/:id"
+            element={
+              <SecureRoute redirectTo="/login">
+                <AlbumPage />
+              </SecureRoute>
+            }
+          />
 
-          <Route path="/create" element={
-            <SecureRoute redirectTo="/login">
-              <CreateAlbumPage />
-            </SecureRoute>
-          } />
+          <Route
+            path="/create"
+            element={
+              <SecureRoute redirectTo="/login">
+                <CreateAlbumPage />
+              </SecureRoute>
+            }
+          />
         </Routes>
       </ThemeProvider>
     </div>
-    
   );
 }
 

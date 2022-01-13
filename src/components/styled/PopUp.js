@@ -16,6 +16,7 @@ export const PopUp = styled.div`
     .share-box {
         background-color: ${({ theme }) => theme.colors.white};
         border-radius: 20px;
+        padding: 20px;
 
         input {
             width: 240px;

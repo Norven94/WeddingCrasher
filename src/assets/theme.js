@@ -10,10 +10,11 @@ export const theme = {
         boxShadow: "#00000050",
     },
     fontSize: {
-        desktopXS: ".8rem",
-        desktopS: "1rem",
-        desktopL: "1.25rem",
-        allH3: "1.5rem",
+        xSmall: ".8rem",
+        small: "1rem",
+        medium: "1.25rem",
+        large: "1.5rem",
+        xLarge: "1.8rem",
     },
     medias: {
         sm: '(min-width: 576px)',

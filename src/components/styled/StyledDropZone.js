@@ -9,7 +9,7 @@ export const StyledDropZone = styled.div`
     margin-bottom: 1rem;
 
     p {
-        font-size: ${({ theme }) => theme.fontSize.allH3};
+        font-size: ${({ theme }) => theme.fontSize.large};
         color: ${({ theme }) => theme.colors.red};
     }
 `

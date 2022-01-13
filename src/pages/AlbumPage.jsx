@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSnapshotDocument } from "../hooks/useSnapshotDocument";
-import { useUpdateAlbum } from '../hooks/useUpdateAlbum'
+import { useUpdateAlbum } from "../hooks/useUpdateAlbum";
 import { useDataContext } from "../contexts/DataContext";
 import { useDeleteImage } from "../hooks/useDeleteImage";
 import ImageGrid from "../components/ImageGrid";
 import Dropzone from "../components/Dropzone";
-import {Button} from "../components/styled/Button";
+import { Button } from "../components/styled/Button";
 import { InputText } from "../components/styled/InputText";
 import { TextLink } from "../components/styled/TextLink";
 import { Heading } from "../components/styled/Heading";
-import {PageContainer} from "../components/styled/PageContainer"
+import { PageContainer } from "../components/styled/PageContainer";
 import PopQuestion from "../components/PopQuestion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -18,41 +18,44 @@ import toast, { Toaster } from "react-hot-toast";
 
 const AlbumPage = () => {
   const { id } = useParams();
-  
-  const { data, loading } = useSnapshotDocument(id);
-  const updateHook = useUpdateAlbum()
-  const deleteImageHook = useDeleteImage()
-  const { images, setImages, selectedImages, setSelectedImages } = useDataContext();
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [deleteQuestion, setDeleteQuestion] = useState(false)
-  const [lastImageDelete, setLastImageDelete] = useState(false)
-  const [shareQuestion, setShareQuestion] = useState(false)
-  const albumNameRef = useRef()
-  const navigate = useNavigate()
+  const { data, loading } = useSnapshotDocument(id);
+  const updateHook = useUpdateAlbum();
+  const deleteImageHook = useDeleteImage();
+  const { images, setImages, selectedImages, setSelectedImages } =
+    useDataContext();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [deleteQuestion, setDeleteQuestion] = useState(false);
+  const [lastImageDelete, setLastImageDelete] = useState(false);
+  const [shareQuestion, setShareQuestion] = useState(false);
+  const albumNameRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
       setImages(data.images);
     }
-    setSelectedImages([])
+    setSelectedImages([]);
   }, [data]);
 
   useEffect(() => {
     if (data) {
-      updateHook.updateAlbum({images}, data.id)
+      updateHook.updateAlbum({ images }, data.id);
     }
-  }, [images])
+  }, [images]);
 
   const handleRemoveImage = (params) => {
     if (!updateHook.isLoading && !deleteImageHook.isLoading) {
       //If only one image remains in album, ask to delete hole album instead
       if (images.length < 2) {
-        setLastImageDelete(true)
+        setLastImageDelete(true);
       } else {
         //Remove the image from the album images array
-        const noRemovedImages = images.filter((image) => image.uuid !== params.uuid)
-        updateHook.updateAlbum({images: noRemovedImages}, data.id)
+        const noRemovedImages = images.filter(
+          (image) => image.uuid !== params.uuid
+        );
+        updateHook.updateAlbum({ images: noRemovedImages }, data.id);
         //Try to remove the image doc and storage if there is no copy of the image in other albums
         deleteImageHook.deleteImage(params);
         setImages(noRemovedImages);
@@ -60,29 +63,28 @@ const AlbumPage = () => {
     }
   };
 
-  const updateName = e => {
-    e.preventDefault()
+  const updateName = (e) => {
+    e.preventDefault();
 
     if (!updateHook.isLoading) {
       if (albumNameRef.current.value !== "") {
-        updateHook.updateAlbum({name: albumNameRef.current.value}, data.id)
+        updateHook.updateAlbum({ name: albumNameRef.current.value }, data.id);
         if (updateHook.success) {
           toast.success("Successfully updated changes");
         }
         if (updateHook.error) {
           toast.error(updateHook.error);
         }
-        setIsEditing(false)
+        setIsEditing(false);
       } else {
-        setIsEditing(false)
+        setIsEditing(false);
       }
     }
-  }
+  };
 
   const createFromSelection = () => {
-    navigate("/create")
-  }
-  
+    navigate("/create");
+  };
 
   return (
     <PageContainer>
@@ -90,32 +92,70 @@ const AlbumPage = () => {
       {data && (
         <div>
           <Toaster />
-          <Heading>
-            <Button className={`${updateHook.isLoading && "disabled"} mr-4 secondary`} onClick={() => setDeleteQuestion(true)}>Delete album</Button>
+          <Heading className="mb-3">
             {isEditing ? (
               <form className="album-name-container" onSubmit={updateName}>
-                <InputText type="text" placeholder="Enter new album name" ref={albumNameRef} />
-                <Button className={`${updateHook.isLoading && "disabled"} ml-2`} type="submit">Change</Button>
+                <InputText
+                  type="text"
+                  placeholder="Enter new album name"
+                  ref={albumNameRef}
+                />
+                <Button
+                  className={`${updateHook.isLoading && "disabled"} ml-2`}
+                  type="submit"
+                >
+                  Change
+                </Button>
               </form>
             ) : (
-              <div className="album-name-container">
-                <h1>{data.name}</h1>
-                <div className="ml-2 fa-icon">
-                  <FontAwesomeIcon icon={faEdit} onClick={() => setIsEditing(true)}/>
+              <>
+                <Button
+                  className={`${updateHook.isLoading && "disabled"} secondary`}
+                  onClick={() => setDeleteQuestion(true)}
+                >
+                  Delete album
+                </Button>
+                <div className="album-name-container">
+                  <h1>{data.name}</h1>
+                  <div className="ml-2 fa-icon">
+                    <FontAwesomeIcon
+                      icon={faEdit}
+                      onClick={() => setIsEditing(true)}
+                    />
+                  </div>
                 </div>
-              </div>
+                <Button
+                  className={`${updateHook.isLoading && "disabled"}`}
+                  onClick={() => setShareQuestion(true)}
+                >
+                  Share album
+                </Button>
+              </>
             )}
-            <Button className={`${updateHook.isLoading && "disabled"} ml-4 save-btn`} onClick={() => setShareQuestion(true)}>Share album</Button>
           </Heading>
-          <TextLink align="left">
-            <span className="text-link-span" onClick={createFromSelection}>Create new album based on selected images</span>
+          <TextLink className="mb-2" align="left">
+            <span className="text-link-span" onClick={createFromSelection}>
+              Create new album based on selected images
+            </span>
           </TextLink>
           <Dropzone />
-          <ImageGrid images={images} removeImage={handleRemoveImage} isNewAlbum={false} />
+          <ImageGrid
+            images={images}
+            removeImage={handleRemoveImage}
+            isNewAlbum={false}
+          />
         </div>
       )}
-      {(deleteQuestion || lastImageDelete || shareQuestion) && (
-        <PopQuestion albumDetails={data} type={lastImageDelete ? "lastImage" : deleteQuestion ? "delete" : "share"} setDeleteQuestion={setDeleteQuestion} setShareQuestion={setShareQuestion} setLastImageDelete={setLastImageDelete}/>
+      {(deleteQuestion || lastImageDelete || shareQuestion) && (
+        <PopQuestion
+          albumDetails={data}
+          type={
+            lastImageDelete ? "lastImage" : deleteQuestion ? "delete" : "share"
+          }
+          setDeleteQuestion={setDeleteQuestion}
+          setShareQuestion={setShareQuestion}
+          setLastImageDelete={setLastImageDelete}
+        />
       )}
     </PageContainer>
   );

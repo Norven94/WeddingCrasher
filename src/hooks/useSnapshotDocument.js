@@ -8,17 +8,17 @@ export const useSnapshotDocument = (albumId) => {
 
   useEffect(() => {
     setLoading(true);
-    const docRef = doc(db, "albums", albumId)
+    const docRef = doc(db, "albums", albumId);
 
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
       if (!snapshot.exists()) {
-				setData(false)
-				setLoading(false)
-				return
-			}
+        setData(false);
+        setLoading(false);
+        return;
+      }
 
-			setData({id: snapshot.id, ...snapshot.data()})
-			setLoading(false)
+      setData({ id: snapshot.id, ...snapshot.data() });
+      setLoading(false);
     });
 
     return unsubscribe;
