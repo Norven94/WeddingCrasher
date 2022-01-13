@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { v4 as uuidv4 } from 'uuid'
@@ -58,10 +58,6 @@ export const useUploadImage = () => {
             setUploadProgress([])
         })
     }
-
-    useEffect(() => {
-        console.log(uploadProgress)
-    },[uploadProgress])
 
     return {
         upload,

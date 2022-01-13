@@ -26,7 +26,6 @@ const ResetPasswordPage = () => {
         });
         setLoading(false);
       }
-      console.log(e.message);
       setLoading(false);
     }
   };

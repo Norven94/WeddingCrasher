@@ -15,7 +15,6 @@ const SignupPage = () => {
     e.preventDefault()
     setLoading(true)
     const result = await createUser(email, password)
-    console.log(result)
     if (result.uid) {
       resetEmail()
       resetPassword()
@@ -32,7 +31,6 @@ const SignupPage = () => {
       setErrorMessage("Email is already taken!")
       setLoading(false)
     } else {
-      console.log(result)
       setLoading(false)
     }
   }

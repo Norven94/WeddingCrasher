@@ -38,7 +38,6 @@ const PopQuestion = ({
       });
       navigate(`/customer-album/${result.id}`);
     } catch (e) {
-      console.log(e);
       setError("Got following error when creating album: ", e.message);
     }
   };
