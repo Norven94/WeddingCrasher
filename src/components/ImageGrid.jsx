@@ -11,7 +11,7 @@ const masonryBreakpoints = {
 	992: 3,
 }
 
-const ImageGrid = ({ images, removeImage }) => {
+const ImageGrid = ({ images, removeImage, isNewAlbum }) => {
 
   return (
     <SRLWrapper>
@@ -23,7 +23,7 @@ const ImageGrid = ({ images, removeImage }) => {
         {images.map((image) => (
             <div key={image.uuid}>
                 {removeImage ? (
-                    <PhotographImageCard image={image} removeImage={removeImage} />
+                    <PhotographImageCard image={image} removeImage={removeImage} isNewAlbum={isNewAlbum} />
                     
                 ) : (
                     <CustomerImageCard image={image} />

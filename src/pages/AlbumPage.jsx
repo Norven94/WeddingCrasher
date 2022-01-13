@@ -98,7 +98,7 @@ const AlbumPage = () => {
           {updateHook.success && <p>Successfully updated changes</p>}
           {updateHook.error && <p>{updateHook.error}</p>}
           <Dropzone />
-          <ImageGrid images={images} removeImage={handleRemoveImage} />
+          <ImageGrid images={images} removeImage={handleRemoveImage} isNewAlbum={false} />
         </div>
       )}
       {(deleteQuestion || lastImageDelete || shareQuestion) && (

@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { useDataContext } from "../contexts/DataContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import SuperButton from './SuperButton';
 
-const PhotographImageCard = ({ image, removeImage }) => {
+const PhotographImageCard = ({ image, removeImage, isNewAlbum }) => {
     const { selectedImages, setSelectedImages } = useDataContext()
     const [isSelected, setisSelected] = useState(false)
 
@@ -31,9 +30,11 @@ const PhotographImageCard = ({ image, removeImage }) => {
                     onClick={() => removeImage(image)}
                 />
             </div>
-            <div className="select-btn">
-                <input type="checkbox" checked={isSelected ? true : false} onClick={handleImageSelect} />
-            </div>
+            {!isNewAlbum && (
+                <div className="select-btn">
+                    <input type="checkbox" checked={isSelected ? true : false} onChange={handleImageSelect} />
+                </div>
+            )}
         </div>
     )
 }

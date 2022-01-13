@@ -15,9 +15,11 @@ const Dropzone = () => {
       return;
     }
 
-    acceptedFiles.map(file => {
-      upload(file, currentUser.uid);
-    })
+    upload(acceptedFiles, currentUser.uid);
+
+    // acceptedFiles.map(file => {
+    //   upload(file, currentUser.uid);
+    // })
   }, []);
 
   useEffect(() => {
@@ -42,7 +44,6 @@ const Dropzone = () => {
   } = useDropzone({
     accept: "image/gif, image/jpeg, image/png, image/webp",
     onDrop,
-    maxFiles: 2,
   });
 
   return (
@@ -58,7 +59,9 @@ const Dropzone = () => {
                 {file.name} ({Math.round(file.size / 1024)} kb)
               </li>
             ))}
-            {uploadProgress && <p>{uploadProgress}</p>}
+            {uploadProgress && uploadProgress.map((progress, i) => (
+              <p key={i}>{progress}</p>
+            ))}
             {isError && <p>{isError}</p>}
           </ul>
         </div>

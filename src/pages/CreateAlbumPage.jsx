@@ -30,11 +30,6 @@ const CreateAlbumPage = () => {
   
   }, [selectedImages])
 
-  // useEffect(() => {
-  //   console.log(images)
-  
-  // }, [images])
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -76,7 +71,7 @@ const CreateAlbumPage = () => {
       {error && <p>{error}</p>}
       <Dropzone />
       
-      <ImageGrid images={images} removeImage={handleRemoveImage} />
+      <ImageGrid images={images} removeImage={handleRemoveImage} isNewAlbum={true} />
     </div>
   );
 };

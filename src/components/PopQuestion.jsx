@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteAlbum } from "../hooks/useDeleteAlbum";
 import { useDataContext } from "../contexts/DataContext";
@@ -21,11 +21,6 @@ const PopQuestion = ({
 
   const handleDeleteAlbum = () => {
     setImages([]);
-    if (type === "delete") {
-      setDeleteQuestion(false)
-    } else {
-      setLastImageDelete(false)
-    }
     deleteAlbumHook.deleteAlbum(albumDetails);
     navigate("/");
   };
