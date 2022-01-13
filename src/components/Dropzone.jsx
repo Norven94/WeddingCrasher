@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { useDataContext } from "../contexts/DataContext";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useUploadImage } from '../hooks/useUploadImage'
+import ProgressBar from "./ProgressBar";
 
 const Dropzone = () => {
   const { currentUser } = useAuthContext()
@@ -53,17 +54,16 @@ const Dropzone = () => {
     <p>Add images</p>
       {acceptedFiles.length > 0 && (
         <div>
-          <ul>
-            {acceptedFiles.map((file) => (
-              <li key={file.name}>
-                {file.name} ({Math.round(file.size / 1024)} kb)
-              </li>
-            ))}
-            {uploadProgress && uploadProgress.map((progress, i) => (
-              <p key={i}>{progress}</p>
-            ))}
+          <div>
+            <div>
+              {uploadProgress && uploadProgress.map((progress, i) => (
+                <div className="my-2" key={i}>
+                  <ProgressBar completed={progress} />
+                </div>
+              ))}
+            </div>
             {isError && <p>{isError}</p>}
-          </ul>
+          </div>
         </div>
       )}
     </div>
